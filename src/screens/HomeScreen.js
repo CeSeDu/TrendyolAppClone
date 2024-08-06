@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import tw from 'twrnc';
 import Card from '../components/Card';
 import BannerCard from '../components/BannerCard';
 import Icon from 'react-native-vector-icons/Ionicons';
-import products from '../data/products';
+import products from '../data/product';
 import sellerBanners from '../data/SellerBanner';
-
 
 const categories = [
   { id: 1, name: 'Kadın' },
@@ -17,7 +16,7 @@ const categories = [
   // Daha fazla kategori ekleyebilirsiniz
 ];
 
-function HomeScreen() {
+function HomeScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState(null);
 
@@ -78,13 +77,17 @@ function HomeScreen() {
           </TouchableOpacity>
         </View>
       </View>
-      <Card products={products}/>
-      <View  style={tw``}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={tw`p-2`}>
+        {products.map(product => (
+          <Card key={product.id} product={product} horizontal navigation={navigation} />
+        ))}
+      </ScrollView>
+      <View style={tw``}>
         {sellerBanners.map(banner => (
           <BannerCard key={banner.id} sellerbanner={banner} />
         ))}
       </View>
-      </ScrollView>
+    </ScrollView>
   );
 }
 
